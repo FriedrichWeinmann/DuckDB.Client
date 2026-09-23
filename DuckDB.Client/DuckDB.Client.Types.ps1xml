@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+	<Type>
+		<Name>DuckDB.NET.Data.DuckDBConnection</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Query</Name>
+				<Script>
+param(
+	[string]
+	$Query
+)
+	
+if ($this.State -ne 'Open') {
+	$this.Open()
+}
+	
+$command = $this.CreateCommand()
+$command.CommandText = $Query
+
+$reader = $command.ExecuteReader()
+
+$results = while ($reader.read()) {
+	$dataSet = [Ordered]@{}
+	foreach ($index in 0..($reader.FieldCount - 1)) {
+		$dataSet[$reader.GetName($index)] = $reader.GetValue($index)        
+	}
+	[PSCustomObject]$dataSet
+}
+$reader.Dispose()
+$command.Dispose()
+
+return $results
+				</Script>
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>
