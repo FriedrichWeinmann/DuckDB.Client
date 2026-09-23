@@ -19,6 +19,7 @@
 
 			Creates and returns a connection to the DuckDB database stored at C:\Data\sales.duckdb.
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
 	[OutputType([DuckDB.NET.Data.DuckDBConnection])]
 	[CmdletBinding()]
 	param (
